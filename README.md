@@ -1,7 +1,7 @@
 # Memory-Game
 Matching Images Memory Game
 
-This project was initially created from the "Learn JavaScript by Building 7 Games" course published by freeCodeCamp.org.
+This project was initially created from the "Learn JavaScript by Building 7 Games" course published by freeCodeCamp.org. 
 
 Features added:
   10 lives at the start of each game.

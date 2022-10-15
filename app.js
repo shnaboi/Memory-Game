@@ -59,6 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const cardsWon = [];
     let lives = parseFloat(document.getElementById("lives").innerText); 
     let score = parseFloat(document.getElementById("score").innerText);
+    
+    let freezeClick = false;
+    document.addEventListener('click', freezeClickfn, true);
+    function freezeClickfn(e) {
+        if (freezeClick == true) {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    }
+    function disableClick() {
+        freezeClick = true;
+        setTimeout(() => {
+          freezeClick = false;
+        }, 750);
+    }
 
     function createBoard() {
         for (let i = 0; i < 12; i++) {
@@ -67,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cardUnchosen.setAttribute('data-id', i);
             cardUnchosen.addEventListener('click', flipCard);
             gridDisplay.append(cardUnchosen);
-            console.log(gridDisplay);
+
             if (lives == 0) {
                 alert(`Game over! You Lose! You are a loser!`);
                 cardUnchosen.removeEventListener('click');
@@ -109,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 createBoard();
                 alert(`New Round! Life amount of ${lives} was added to your score. You also earned an extra life!`);
                 parseFloat(document.getElementById("lives").innerText++);
-                parseFloat(document.getElementById("round").innerText++);
                 }
             console.log(`Score = ${score}`);
             }
@@ -127,10 +141,9 @@ document.addEventListener('DOMContentLoaded', () => {
         cardMatchName = [];
         cardMatchID = [];
         
-        
     }
 
-    function flipCard() {
+    function flipCard(e) {
         if (lives >= 1) {
             let cardID = this.getAttribute('data-id');
             cardMatchName.push(cardArray[cardID].name);
@@ -139,18 +152,17 @@ document.addEventListener('DOMContentLoaded', () => {
             if (cardMatchName.length === 2 && cardMatchID[0] == cardMatchID[1]) {
                 setTimeout( checkMatch, 0 )
             }
-            else if (cardMatchName.length === 2) {
-                setTimeout( checkMatch, 750 );
+            else if (cardMatchName.length == 2) {
+                disableClick();
+                setTimeout( checkMatch, 750 ); 
+            }
+            else if (lives == 0) {
+                alert(`Game over! You Lose! You are a loser!`);
+                cardUnchosen.removeEventListener('click');
             }
         }
-        else if (lives == 0) {
-            alert(`Game over! You Lose! You are a loser!`);
-            cardUnchosen.removeEventListener('click');
-        }
-
     }
 
     createBoard(); 
 
-    })
-
+})
